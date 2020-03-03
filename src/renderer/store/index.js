@@ -61,6 +61,14 @@ export default new Vuex.Store({
       };
       state.websocket.send(JSON.stringify(msg));
     },
+    //群组操作
+    sendGroupMsg: function(state,message) {
+      let msg = {
+        code: MessageInfoType.MSG_GROUP,
+        message: message
+      };
+      state.websocket.send(JSON.stringify(msg));
+    },
     resetUnRead: function(state) {
       if (typeof state.currentChat == 'string') {
         state.currentChat = {};

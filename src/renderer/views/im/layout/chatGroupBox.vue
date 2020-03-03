@@ -16,7 +16,7 @@
         </div>
         <div class="chat-box">
             <Top></Top>
-            <Welcome></Welcome>
+            <Group></Group>
         </div>
     </div>
 </template>
@@ -24,7 +24,7 @@
   import Search from '../components/search.vue';
   import Top from '../components/top.vue';
   import UserChat from '../components/chat.vue';
-  import Welcome from '../components/welcome.vue';
+  import Group from '../components/group.vue';
   import conf from '../conf';
   import { ChatListUtils, MessageTargetType } from '../../../utils/ChatUtils';
 
@@ -33,7 +33,7 @@
     Search,
     Top,
     UserChat,
-    Welcome
+    Group
   },
   computed: {
     //需要展示的用户群组

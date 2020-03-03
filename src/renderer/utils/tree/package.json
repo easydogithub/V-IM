@@ -1,0 +1,23 @@
+{
+  "name": "vue-x-tree",
+  "version": "1.0.0",
+  "description": "tree component",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/yanwu-xu/tree.git"
+  },
+  "keywords": [
+    "tree",
+    "component"
+  ],
+  "author": "yanwu-xu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yanwu-xu/tree/issues"
+  },
+  "homepage": "https://github.com/yanwu-xu/tree#readme"
+}

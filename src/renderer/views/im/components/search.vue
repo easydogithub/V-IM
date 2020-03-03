@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="search">
         <Input search v-model="search" placeholder="搜索" size="small" class="search" @on-focus="showSearch()"/>
         <div class="search-div" v-show="showSearchDiv">
             <div class="search-item">
@@ -19,28 +19,51 @@
                 </ul>
             </div>
         </div>
+	
     </div>
 </template>
 <script>
   import conf from '../conf';
   import { pinyin } from '../../../utils/Pinyin.js';
-
+  import RequestUtils from '../../../utils/RequestUtils';
+  import StoreUtils from '../../../utils/StoreUtils';
+ 
   export default {
-    components: {},
+	name:'search',
+    components: {
+		//'el-tree':ElementUI
+	},
     data() {
+	  var _this = this;
       return {
         search: '',
         userList: [],
+		groupUserList: [],
         searchUserList: [],
         showSearchDiv: false,
         host: conf.getHostUrl()
       };
+    },
+	computed: {
+      userFriendList: {
+        get: function() {
+          return this.$store.state.userFriendList;
+        },
+        set: function(userFriendList) {
+          this.$store.commit('setUserFriendList', userFriendList);
+        }
+      }
     },
     methods: {
       showSearch: function() {
         this.search = '';
         this.showSearchDiv = true;
       },
+	  addSelectedData:function(){
+	  },
+	  deleteSelectedData:function(){
+	  
+	  },
       searchUser: function() {
         this.searchUserList = [];
         for (let i = 0; i < this.userList.length; i++) {
@@ -81,12 +104,16 @@
           self.userList.push(user);
         }
       }
+    },
+	mounted(){
+     
     }
+		
+		
   };
 </script>
 <style lang="scss" scoped>
     @import '../../../../../static/styles/theme';
-
     .search {
         margin: 0 0 1rem;
 
@@ -244,4 +271,7 @@
             }
         }
     }
+	
+	
+	
 </style>

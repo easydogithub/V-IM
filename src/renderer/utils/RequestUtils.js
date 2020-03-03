@@ -2,7 +2,7 @@ import { ErrorType, imageLoad, MessageInfoType, MessageTargetType } from './Chat
 import conf from '../views/im/conf/index.js';
 import StoreUtils from './StoreUtils';
 import WebsocketHeartbeatJs from './WebsocketHeartbeatJs';
-
+import { logout } from '../utils/ChatUtils';
 class RequestUtils {
   constructor() {
     this.instance = null;
@@ -285,11 +285,11 @@ class RequestUtils {
           if (ErrorType.NET_ERROR === error.toString()) {
             self.$Message.error('网络断开，正在重连...');
           } else if (ErrorType.FLUSH_TOKEN_ERROR === error) {
-            count = 25;
+            count = 5;
           }
         });
-      //重连次数大于24 退出登录
-      if (count > 24) {
+      //重连次数大于6 退出登录
+      if (count > 4) {
         count = 0;
         logout(self);
       }

@@ -72,6 +72,7 @@
                             <img :src="[host + item.avatar]" alt=""/>
                         </span>
                         {{item.name}}
+                        <Icon type="md-close" v-if="chat.master === $store.state.user.id" @click="delChatGroupUser(item)"></Icon>
                     </li>
                 </ul>
             </div>
@@ -99,6 +100,8 @@
                 <p class="user-model-item">
                     <label>群名称：</label>
                     <span>{{chat.name}}</span>
+                    <Button size="small" v-if="chat.master === $store.state.user.id">解散群</Button>
+                    <Button size="small" v-else="chat.master === $store.state.user.id">退出群</Button>
                 </p>
             </div>
         </Modal>
@@ -337,6 +340,33 @@
               imageLoad('his-chat-message');
             });
           });
+      },
+      delChatGroupUser(user) {
+        let self = this;
+        let currentUser = self.$store.state.user;
+        let time = new Date().getTime();
+        let content = '提出群';
+        if (content !== '' && content !== '\n') {
+          if (content.length > 2000) {
+            self.openMessage('不能超过2000个字符');
+          } else {
+            let currentMessage = {
+              mine: true,
+              avatar: currentUser.avatar,
+              username: currentUser.name,
+              timestamp: time,
+              content: user.id, //提出人员ID
+              fromid: currentUser.id, //操作人ID
+              id: self.chat.id, //群ID
+              type: 'd'
+            };
+            //self.sendGroup(currentMessage);
+          }
+        }
+      },
+      sendGroup(message) {
+        let self = this;
+        self.$store.commit('sendGroupMsg', message);
       }
     },
     watch: {
@@ -451,7 +481,7 @@
         }
 
         .im-chat-users {
-            flex: 1;
+            flex: 1.5;
             border-left: 1px solid #cccccc;
             overflow-y: scroll;
         }
@@ -690,6 +720,27 @@
                 & > img {
                     width: 100%;
                     height: 100%;
+                }
+            }
+
+            &:hover {
+                background-color: $color-gray !important;
+            }
+
+            & > i {
+                right: 1rem;
+                bottom: 1.6rem;
+                cursor: pointer;
+                border-radius: 50%;
+                padding: 0.2rem;
+                text-align: center;
+                color: $color-light-gray;
+                float: right;
+                margin: 0.9rem;
+
+                &:hover {
+                    color: $color-default;
+                    background-color: $color-write;
                 }
             }
         }

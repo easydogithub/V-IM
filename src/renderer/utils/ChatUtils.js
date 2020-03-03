@@ -315,6 +315,9 @@ export const ChatListUtils = {
     }
     // 重新添加会话，放到第一个
     let chat = new Chat(user.id, user.name, avatar, 0, '', user.mobile, user.email, type);
+    if (MessageTargetType.CHAT_GROUP == type) {
+      chat.master = user.master;
+    }
     newChatList.unshift(chat);
     // 存储到localStorage 的 chatList
     this.setChatList(self.$store.state.user.id, chatList);
@@ -322,11 +325,12 @@ export const ChatListUtils = {
     return chat;
   }
 };
-//信息的类型 MSG_PING 心跳 、MSG_READY 链接就绪  MSG_MESSAGE 消息
+//信息的类型 MSG_PING 心跳 、MSG_READY 链接就绪  MSG_MESSAGE 消息 、MSG_GROUP 群组操作 
 export const MessageInfoType = {
   MSG_PING: '0',
   MSG_READY: '1',
-  MSG_MESSAGE: '2'
+  MSG_MESSAGE: '2',
+  MSG_GROUP: '3'
 };
 //信息的目标类型 FRIEND 私聊 、CHAT_GROUP 群聊
 export const MessageTargetType = {

@@ -8,8 +8,8 @@
             <div class="title">{{app_name}} 登录</div>
             <Alert v-if="showErr" type="error">{{err}}</Alert>
             <div class="item">
-                <label>手机：</label>
-                <Input prefix="ios-contact-outline" v-model="username" placeholder="手机" class="item-input"/>
+                <label>账号：</label>
+                <Input prefix="ios-contact-outline" v-model="username" placeholder="账号" class="item-input"/>
             </div>
             <div class="item">
                 <label>密码：</label>
@@ -60,8 +60,8 @@
         err: '',
         showErr: false,
         showSetting: false,
-        showRegister: false,
-        host: '127.0.0.1'
+        //showRegister: false,
+        host: '127.0.0.1' //27.57.57.106
       };
     },
     components: {
@@ -94,7 +94,7 @@
           .then(json => {
             if ('0' === json.resultCode) {
               self.$Message.success('注册成功');
-              self.showRegister = false;
+              //self.showRegister = false;
             } else {
               self.$Message.error(json.message);
             }
@@ -104,6 +104,12 @@
           });
       },
       login: function() {
+        // let tk = StoreUtils.getToken();
+        // console.log('SessionStorage Token:' + tk);
+        // alert('SessionStorage Token:' + tk);
+        // this.username = tk;
+        //return;
+
         let self = this;
         localStorage.setItem('host', self.host);
 
@@ -164,6 +170,48 @@
         self.host = host;
       } else {
         localStorage.setItem('host', self.host);
+      }
+
+      let tk = StoreUtils.getToken();
+      //console.log('SessionStorage Token:' + tk);
+      //alert('SessionStorage Token:' + tk);
+
+      if (tk) {
+        let requestApi = RequestUtils.getInstance();
+        requestApi.request(conf.getInitUrl(), new FormData())
+        .then(response => {
+            return response.json();
+          })
+          .then(json => {
+            //个人信息
+            self.$store.commit('setUser', json.me);
+            //好友
+            self.$store.commit('setUserFriendList', json.friends);
+
+            //群
+            self.$store.commit('setChatGroupList', json.groups);
+
+            //把群组封装到map中
+            let chatMap = new Map();
+            json.groups.forEach(group => {
+              chatMap.set(group.id, group);
+            });
+            self.$store.commit('setChatMap', chatMap);
+
+            // 跳转到index 页面
+            self.$router.push({
+              path: '/index/chatBox',
+              params: {}
+            });
+          })
+          .catch(function(error) {
+            self.showErr = true;
+            if (ErrorType.NET_ERROR === error.toString()) {
+              self.err = '服务通讯失败，请检查服务设置';
+            } else {
+              self.err = error.toString();
+            }
+          })
       }
     }
   };

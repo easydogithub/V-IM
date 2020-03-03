@@ -20,6 +20,11 @@
                         <Icon type="ios-contacts-outline"/>
                     </router-link>
                 </li>
+                <li>
+                    <router-link v-bind:to="'/index/peopleBox'">
+                        <Icon type="ios-people-outline"/>
+                    </router-link>
+                </li>
             </ul>
         </div>
         <keep-alive>
@@ -50,6 +55,7 @@
 </template>
 <script>
   import { logout } from '../utils/ChatUtils';
+  import StoreUtils from '../utils/StoreUtils';
 
   export default {
   data() {
@@ -61,6 +67,7 @@
   methods: {
     myLogout() {
       let self = this;
+      StoreUtils.setToken('');
       logout(self);
     }
   },
