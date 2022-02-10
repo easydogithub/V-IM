@@ -93,7 +93,7 @@
     "less-loader": "^2.2.3",
     "multispinner": "^0.2.1",
     "node-loader": "^0.6.0",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "prettier": "1.14.3",
     "run-electron": "^0.1.0",
     "sass-loader": "^7.1.0",
